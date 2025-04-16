@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>❤️ 承君专属告白程序 ❤️</title>
+    <style>
+        body {
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .lock-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            backdrop-filter: blur(10px);
+        }
+
+        .message-box {
+            text-align: center;
+            color: #fff;
+            padding: 30px;
+            border: 3px solid #ff69b4;
+            border-radius: 15px;
+            animation: heartbeat 1.5s infinite;
+        }
+
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        #confirmBtn {
+            padding: 15px 40px;
+            font-size: 24px;
+            background: #ff1493;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 20px;
+        }
+
+        #confirmBtn:hover {
+            background: #ff0066;
+            transform: scale(1.1);
+        }
+
+        .firework {
+            position: absolute;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="lock-screen" id="lockScreen">
+        <div class="message-box">
+            <h1 style="font-size: 2.5em;">💌 致 承君 💌</h1>
+            <p style="font-size: 1.5em; line-height: 1.6;">自相遇那刻起，<br>东方瑞空的世界便只剩下你<br>你的笑容是我永恒的追求<br>请允许我永远守护你...</p >
+            <button id="confirmBtn">🔥 点击接受我的爱 🔥</button>
+        </div>
+    </div>
+
+    <script>
+        // 锁定浏览器功能
+        document.addEventListener('contextmenu', e => e.preventDefault());
+        document.addEventListener('keydown', e => {
+            if(e.keyCode === 123 || e.ctrlKey || e.altKey || e.metaKey) e.preventDefault();
+        });
+
+        // 强制弹窗机制
+        let confirmed = false;
+        window.onbeforeunload = e => {
+            if(!confirmed){
+                e.returnValue = "请先接受东方瑞空的心意！";
+                setTimeout(() => {
+                    document.body.innerHTML += '<div class="lock-screen" id="lockScreen">请先做出选择！</div>';
+                }, 100);
+            }
+        };
+
+        // 同意按钮事件
+        document.getElementById('confirmBtn').addEventListener('click', () => {
+            confirmed = true;
+            document.getElementById('lockScreen').style.display = 'none';
+            for(let i=0; i<50; i++){
+                const firework = document.createElement('div');
+                firework.className = 'firework';
+                firework.style = `left: ${Math.random()*100}%; 
+                                 top: ${Math.random()*100}%;
+                                 animation: explode 1s ease-out;
+                                 background: radial-gradient(circle, 
+                                     #ff69b4 ${Math.random()*50}%, 
+                                     #ff1493 100%);
+                                 width: ${10+Math.random()*50}px;
+                                 height: ${10+Math.random()*50}px;
+                                 border-radius: 50%;`;
+                document.body.appendChild(firework);
+                setTimeout(() => firework.remove(), 1000);
+            }
+            alert("❤️ 承君接受了东方瑞空的爱意！ ❤️\n\n现在你们可以永远幸福地在一起了！");
+            window.onbeforeunload = null;
+        });
+    </script>
+</body>
+</html>
